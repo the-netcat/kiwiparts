@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Parts Order Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+    input[type="number"] {
+      width: 80px;
+    }
+    .total {
+      font-size: 1.5em;
+      text-align: right;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Car Parts Order Calculator</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Part</th>
+        <th>Price ($)</th>
+        <th>Quantity</th>
+        <th>Subtotal ($)</th>
+      </tr>
+    </thead>
+    <tbody id="partsTable">
+      <!-- Parts will be injected here -->
+    </tbody>
+  </table>
+  <div class="total" id="grandTotal">Grand Total: $0</div>
+
+  <script>
+    const parts = [
+  { name: "BoltOnEngineSwap", price: 12000 },
+  { name: "CleaningKit", price: 1000 },
+  { name: "Cosmetics_bodyKit", price: 2000 },
+  { name: "DriveTrainSwap", price: 3000 },
+  { name: "DriftTuniungKit", price: 6000 },
+  { name: "ExtrasKit", price: 1000 },
+  { name: "FullService", price: 5000 },
+  { name: "LightingController", price: 2000 },
+  { name: "ManualGearbox", price: 6000 },
+  { name: "NitrousBottle", price: 7000 },
+  { name: "NitrousInstallKit", price: 12000 },
+  { name: "OffroadTyersKit", price: 3000 },
+  { name: "PerformancePart", price: 2000 },
+  { name: "ReplacementTyer", price: 1000 },
+  { name: "Respray_ResprayKit", price: 1000 },
+  { name: "SemiSlickTyres", price: 3000 },
+  { name: "SlickTyers", price: 1500 },
+  { name: "StanceKit", price: 6000 },
+  { name: "TyreSmoke_TyerSmokeKit", price: 1500 },
+  { name: "VehicleWheelSet", price: 2000 },
+  { name: "VicRepair_RepairKit", price: 2000 }
+];
+
+    const tableBody = document.getElementById("partsTable");
+    const grandTotalEl = document.getElementById("grandTotal");
+
+    function updateTotal() {
+      let grandTotal = 0;
+      parts.forEach((part, index) => {
+        const qtyInput = document.getElementById(`qty-${index}`);
+        const qty = parseInt(qtyInput.value) || 0;
+        const subtotal = qty * part.price;
+        document.getElementById(`subtotal-${index}`).textContent = `$${subtotal.toLocaleString()}`;
+        grandTotal += subtotal;
+      });
+      grandTotalEl.textContent = `Grand Total: $${grandTotal.toLocaleString()}`;
+    }
+
+    parts.forEach((part, index) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${part.name}</td>
+        <td>$${part.price.toLocaleString()}</td>
+        <td><input type="number" id="qty-${index}" min="0" value="0" onchange="updateTotal()" onkeyup="updateTotal()"/></td>
+        <td id="subtotal-${index}">$0</td>
+      `;
+
+      tableBody.appendChild(row);
+    });
+  </script>
+</body>
+</html>
