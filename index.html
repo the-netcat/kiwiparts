@@ -33,6 +33,19 @@
       text-align: right;
       font-weight: bold;
     }
+    .clear-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .clear-btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -51,31 +64,34 @@
     </tbody>
   </table>
   <div class="total" id="grandTotal">Grand Total: $0</div>
+  
+  <!-- Clear Button -->
+  <button class="clear-btn" onclick="clearForm()">Clear</button>
 
   <script>
     const parts = [
-  { name: "BoltOnEngineSwap", price: 12000 },
-  { name: "CleaningKit", price: 1000 },
-  { name: "Cosmetics_bodyKit", price: 2000 },
-  { name: "DriveTrainSwap", price: 3000 },
-  { name: "DriftTuniungKit", price: 6000 },
-  { name: "ExtrasKit", price: 1000 },
-  { name: "FullService", price: 5000 },
-  { name: "LightingController", price: 2000 },
-  { name: "ManualGearbox", price: 6000 },
-  { name: "NitrousBottle", price: 7000 },
-  { name: "NitrousInstallKit", price: 12000 },
-  { name: "OffroadTyersKit", price: 3000 },
-  { name: "PerformancePart", price: 2000 },
-  { name: "ReplacementTyer", price: 1000 },
-  { name: "Respray_ResprayKit", price: 1000 },
-  { name: "SemiSlickTyres", price: 3000 },
-  { name: "SlickTyers", price: 1500 },
-  { name: "StanceKit", price: 6000 },
-  { name: "TyreSmoke_TyerSmokeKit", price: 1500 },
-  { name: "VehicleWheelSet", price: 2000 },
-  { name: "VicRepair_RepairKit", price: 2000 }
-];
+      { name: "BoltOnEngineSwap", price: 12000 },
+      { name: "CleaningKit", price: 1000 },
+      { name: "Cosmetics_bodyKit", price: 2000 },
+      { name: "DriveTrainSwap", price: 3000 },
+      { name: "DriftTuniungKit", price: 6000 },
+      { name: "ExtrasKit", price: 1000 },
+      { name: "FullService", price: 5000 },
+      { name: "LightingController", price: 2000 },
+      { name: "ManualGearbox", price: 6000 },
+      { name: "NitrousBottle", price: 7000 },
+      { name: "NitrousInstallKit", price: 12000 },
+      { name: "OffroadTyersKit", price: 3000 },
+      { name: "PerformancePart", price: 2000 },
+      { name: "ReplacementTyer", price: 1000 },
+      { name: "Respray_ResprayKit", price: 1000 },
+      { name: "SemiSlickTyres", price: 3000 },
+      { name: "SlickTyers", price: 1500 },
+      { name: "StanceKit", price: 6000 },
+      { name: "TyreSmoke_TyerSmokeKit", price: 1500 },
+      { name: "VehicleWheelSet", price: 2000 },
+      { name: "VicRepair_RepairKit", price: 2000 }
+    ];
 
     const tableBody = document.getElementById("partsTable");
     const grandTotalEl = document.getElementById("grandTotal");
@@ -90,6 +106,15 @@
         grandTotal += subtotal;
       });
       grandTotalEl.textContent = `Grand Total: $${grandTotal.toLocaleString()}`;
+    }
+
+    function clearForm() {
+      parts.forEach((part, index) => {
+        const qtyInput = document.getElementById(`qty-${index}`);
+        qtyInput.value = 0; // Reset quantity to 0
+        document.getElementById(`subtotal-${index}`).textContent = `$0`; // Reset subtotal
+      });
+      updateTotal(); // Recalculate grand total
     }
 
     parts.forEach((part, index) => {
